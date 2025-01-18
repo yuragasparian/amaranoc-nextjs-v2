@@ -4,7 +4,7 @@ import "./globals.css";
 import Header from './../components/Header/index';
 
 const montserrat = Montserrat({
-  weight: '600',
+  weight: '500',
 })
 
 export const metadata: Metadata = {

@@ -122,3 +122,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .rounded_div {
+    @apply flex justify-center items-center gap-3 h-10 rounded-full  text-sm border border-black bg-background shadow-sm hover:bg-accent hover:text-accent-foreground
+  }
+}

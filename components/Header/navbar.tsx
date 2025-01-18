@@ -35,7 +35,6 @@ const menus: { name: string; href: string }[] = [
 ];
 
 export const Navigation = ({
-  
   className,
 }: React.HTMLAttributes<HTMLDivElement>) => {
   return (

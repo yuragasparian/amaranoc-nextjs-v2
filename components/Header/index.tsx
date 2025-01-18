@@ -22,7 +22,7 @@ function Header() {
       <div className="flex gap-8 items-center">
         <Globe size={20} strokeWidth={1.5} className="sm:block hidden"/>
         <UserRound size={20} strokeWidth={1.5} className="md:block hidden"/>
-        <SearchBar />
+        <SearchBar className="sm:flex hidden"/>
         <SideSheet />
       </div>
       
