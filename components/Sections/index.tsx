@@ -5,6 +5,7 @@ import  Image  from 'next/image';
 import {
   Carousel,
   CarouselContent,
+  CarouselDots,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
