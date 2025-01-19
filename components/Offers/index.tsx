@@ -10,7 +10,7 @@ const Offers = async () => {
 
   return (
     <div className="">
-      <div className="mt-5 grid grid-cols-3 gap-5">
+      <div className="mt-5 grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
       {houuses.slice(0, 6).map((house: OfferProperty) => (
         <HouseCard key={house.id} id={house.id} address={house.address} maxPeople={house.maxPeopleCount} rate={house.rating} price={house.price} />
       ))}

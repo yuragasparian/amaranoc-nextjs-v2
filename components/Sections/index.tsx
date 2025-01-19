@@ -1,15 +1,18 @@
-import * as React from "react";
+"use client";
 
+import React, { useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import  Image  from 'next/image';
+import Image from "next/image";
 import {
   Carousel,
   CarouselContent,
-  CarouselDots,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { set } from "date-fns";
 
 export function Sections() {
   const sections: { name: string; path: string; id: number }[] = [
@@ -28,8 +31,30 @@ export function Sections() {
     { name: "New", id: 13, path: "new" },
     { name: "Apartments", id: 14, path: "apartments" },
   ];
+
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams();
+  const currentSection = searchParams.get("section");
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set(name, value)
+ 
+      return params.toString()
+    },
+    [searchParams]
+  )
+  
+  createQueryString("section", "design")
+  // const newPathObject = {
+  //   pathname: router.usePathname,
+  //   query: "params"
+  // }
+  // router.push(newPathObject, undefined, { shallow: true });
   return (
-    <div className="px-12 border-y my-5">
+    <div className="sm:px-12 border-y my-5">
       <Carousel
         opts={{
           align: "start",
@@ -38,21 +63,39 @@ export function Sections() {
         className="w-full"
       >
         <CarouselContent>
-          {sections.map((section) => (
-            <CarouselItem key={section.id} className="basis-28">
-              <div className="">
-                <Card className="shadow-none border-none">
-                  <CardContent className="flex flex-col aspect-square items-center justify-center p-0">
-                    <Image src={`sections/${section.path}.svg`} alt="" width={40} height={40}  />
-                    <span className="text-[13px] whitespace-nowrap">{section.name}</span>
-                  </CardContent>
-                </Card>
-              </div>
-            </CarouselItem>
-          ))}
+          {sections.map((section) => {
+            let isActive = currentSection == section.path;
+            return (
+              <CarouselItem key={section.id} className="basis-28 :">
+                <div className="">
+                  <Card className="shadow-none border-none ">
+                    <CardContent className="flex flex-col aspect-square items-center justify-center p-0 group cursor-pointer"
+                    onClick={()=> {router.push(pathname + '?' + createQueryString('section', section.path))}}
+                    >
+                      <Image
+                        src={`sections/${section.path}.svg`}
+                        alt=""
+                        width={40}
+                        height={40}
+                      />
+                      <span className="text-[13px] whitespace-nowrap">
+                        {section.name}
+                      </span>
+                      <div
+                        className={cn(
+                          "w-8 h-[2px] mt-2 rounded-lg",
+                          isActive ? "bg-orange-500" : "group-hover:bg-slate-200"
+                        )}
+                      ></div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            );
+          })}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="sm:flex hidden" />
+        <CarouselNext className="sm:flex hidden" />
       </Carousel>
     </div>
   );
