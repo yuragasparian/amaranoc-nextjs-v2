@@ -10,6 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { SlidersHorizontal } from "lucide-react";
+import SideFilterContent from './sideFilterContent/index';
 
 function SideFilter() {
   return (
@@ -20,9 +21,9 @@ function SideFilter() {
           <SlidersHorizontal size={20} strokeWidth={1.5} />
         </div>
       </SheetTrigger>
-      <SheetContent className="p-36" side={"left"}>
+      <SheetContent side={"left_full"}>
         <SheetTitle></SheetTitle>
-
+        <SideFilterContent className="my-16"/>
         <SheetDescription></SheetDescription>
       </SheetContent>
     </Sheet>
