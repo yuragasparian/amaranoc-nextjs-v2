@@ -1,7 +1,58 @@
 import { offers } from "@/db/offers";
 import { NextResponse } from "next/server";
 
+export async function GET(request: Request) {
+    const params = new URL(request.url).searchParams;
 
-export async function GET(response: Response) {
-    return NextResponse.json(offers)
+    const addresses = params.get("regions")?.split(",").filter((region) => region.trim() !== "");
+    const section = params.get("section")?.trim() || null;
+    const rating = params.get("rating") ? Number(params.get("rating")) : null;
+    const minPrice = params.get("min_price") ? Number(params.get("min_price")) : null;
+    const maxPrice = params.get("max_price") ? Number(params.get("max_price")) : null;
+    const overnight = params.get("overnight")?.trim() || null;
+    const maxPeopleCount = params.get("maxPeopleCount") ? Number(params.get("maxPeopleCount")) : null;
+    const allowedPeoplePerNight = params.get("allowedPeoplePerNight") ? Number(params.get("allowedPeoplePerNight")) : null;
+    const roomsCount = params.get("roomsCount") ? Number(params.get("roomsCount")) : null;
+    const bathroomsCount = params.get("bathroomsCount") ? Number(params.get("bathroomsCount")) : null;
+    const poolStatus = params.get("poolStatus") ? params.get("poolStatus") === "true" : null;
+    const poolType = params.get("poolType")?.trim() || null;
+
+
+    const filteredOffers = offers.filter((offer) => {
+        const matchesSection = section ? offer.section === section : true;
+        const matchesAddress = addresses && addresses.length > 0 ? addresses.includes(offer.address) : true;
+        const matchesRating = rating !== null ? offer.rating === rating : true;
+        const matchesPriceRange = 
+            (minPrice !== null ? offer.price >= minPrice : true) &&
+            (maxPrice !== null ? offer.price <= maxPrice : true);
+        const matchesOvernight = overnight ? offer.overnight === overnight : true;
+        const matchesMaxPeople = maxPeopleCount !== null ? offer.maxPeopleCount === maxPeopleCount : true;
+        const matchesAllowedPeople = allowedPeoplePerNight !== null ? offer.allowedPeoplePerNight === allowedPeoplePerNight : true;
+        const matchesRoomsCount = roomsCount !== null ? offer.roomsCount === roomsCount : true;
+        const matchesBathroomsCount = bathroomsCount !== null ? offer.bathroomsCount === bathroomsCount : true;
+        const matchesPoolStatus = poolStatus !== null ? offer.pool.status === poolStatus : true;
+        const matchesPoolType = poolType ? offer.pool.type === poolType : true;
+
+        return (
+            matchesSection &&
+            matchesAddress &&
+            matchesRating &&
+            matchesPriceRange &&
+            matchesOvernight &&
+            matchesMaxPeople &&
+            matchesAllowedPeople &&
+            matchesRoomsCount &&
+            matchesBathroomsCount &&
+            matchesPoolStatus &&
+            matchesPoolType
+        );
+    });
+
+    const sortedOffers = filteredOffers.sort((a, b) => b.rating - a.rating);
+
+    const responseOffers = sortedOffers.length > 0 
+        ? sortedOffers 
+        : offers.slice(0, 9).sort((a, b) => b.rating - a.rating);
+
+    return NextResponse.json(responseOffers);
 }
