@@ -1,11 +1,12 @@
-import React from "react";
+import React, { FC, memo } from "react";
 import Image from "next/image";
 import { Navigation } from "./navbar";
 import { Globe, UserRound } from "lucide-react";
 import { SearchBar } from "./searchBar";
 import SideSheet from './sideSheet';
 
-function Header() {
+const  Header: React.FC = () =>  {
+  
   return (
     <div className="w-full flex justify-center shadow-sm">
     <div className="flex items-center justify-between w-[90%] mx-auto h-28 ">
@@ -31,4 +32,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default React.memo(Header);

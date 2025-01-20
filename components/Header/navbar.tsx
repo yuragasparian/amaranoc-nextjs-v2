@@ -38,6 +38,7 @@ export const Navigation = ({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) => {
   const pathname = usePathname();
+  
   return (
     <NavigationMenu>
       <NavigationMenuList className={cn("flex", className)}>
