@@ -1,5 +1,5 @@
 import Filters from "./../components/Filters/index";
-import SideFilterContent from "./../components/Filters/sideFilterContent/index";
+import SideFilterContent from "./../components/Filters/sideFilterContent";
 import { Sections } from "./../components/Sections/index";
 import Offers from "./../components/Offers/index";
 

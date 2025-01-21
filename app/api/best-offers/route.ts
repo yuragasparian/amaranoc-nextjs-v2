@@ -10,12 +10,13 @@ export async function GET(request: Request) {
     const minPrice = params.get("min_price") ? Number(params.get("min_price")) : null;
     const maxPrice = params.get("max_price") ? Number(params.get("max_price")) : null;
     const overnight = params.get("overnight")?.trim() || null;
-    const maxPeopleCount = params.get("maxPeopleCount") ? Number(params.get("maxPeopleCount")) : null;
+    const maxPeopleCount = params.get("permissible_people_number") ? Number(params.get("permissible_people_number")) : null;
     const allowedPeoplePerNight = params.get("allowedPeoplePerNight") ? Number(params.get("allowedPeoplePerNight")) : null;
     const roomsCount = params.get("roomsCount") ? Number(params.get("roomsCount")) : null;
     const bathroomsCount = params.get("bathroomsCount") ? Number(params.get("bathroomsCount")) : null;
     const poolStatus = params.get("poolStatus") ? params.get("poolStatus") === "true" : null;
     const poolType = params.get("poolType")?.trim() || null;
+    const query = params.get("query")?.trim().toLowerCase() || null;
 
 
     const filteredOffers = offers.filter((offer) => {
@@ -26,12 +27,13 @@ export async function GET(request: Request) {
             (minPrice !== null ? offer.price >= minPrice : true) &&
             (maxPrice !== null ? offer.price <= maxPrice : true);
         const matchesOvernight = overnight ? offer.overnight === overnight : true;
-        const matchesMaxPeople = maxPeopleCount !== null ? offer.maxPeopleCount === maxPeopleCount : true;
+        const matchesMaxPeople = maxPeopleCount !== null ? offer.maxPeopleCount > maxPeopleCount : true;
         const matchesAllowedPeople = allowedPeoplePerNight !== null ? offer.allowedPeoplePerNight === allowedPeoplePerNight : true;
         const matchesRoomsCount = roomsCount !== null ? offer.roomsCount === roomsCount : true;
         const matchesBathroomsCount = bathroomsCount !== null ? offer.bathroomsCount === bathroomsCount : true;
         const matchesPoolStatus = poolStatus !== null ? offer.pool.status === poolStatus : true;
         const matchesPoolType = poolType ? offer.pool.type === poolType : true;
+        const matchesQuery = query ? offer.address.toLowerCase().includes(query) : true;        
 
         return (
             matchesSection &&
@@ -44,14 +46,16 @@ export async function GET(request: Request) {
             matchesRoomsCount &&
             matchesBathroomsCount &&
             matchesPoolStatus &&
-            matchesPoolType
+            matchesPoolType &&
+            matchesQuery
         );
     });
 
     const sortedOffers = filteredOffers.sort((a, b) => b.rating - a.rating);
+    const slicedOffers = sortedOffers.slice(0,15);
 
-    const responseOffers = sortedOffers.length > 0 
-        ? sortedOffers 
+    const responseOffers = slicedOffers.length > 0 
+        ? slicedOffers 
         : offers.slice(0, 9).sort((a, b) => b.rating - a.rating);
 
     return NextResponse.json(responseOffers);

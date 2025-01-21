@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { OfferProperty } from "./../../db/offers";
 import HouseCard from "./houseCard";
 import { useSearchParams } from 'next/navigation';
+import {FourSquare} from "react-loading-indicators"
 
 const Offers = () => {
 
@@ -15,6 +16,7 @@ const [houses, setHouses] = useState<OfferProperty[] | null>(null);
 
   useEffect(() => {
     console.log(`Route changed to: ${params}`);
+    setHouses(null)
     const fetchHouses = async () => {
       const data = await fetchAPI({
         url:
@@ -26,6 +28,7 @@ const [houses, setHouses] = useState<OfferProperty[] | null>(null);
     fetchHouses();
     
   }, [params]);
+  
   
   return (
     <div className="">
@@ -42,7 +45,9 @@ const [houses, setHouses] = useState<OfferProperty[] | null>(null);
             />
           ))
         ) : (
-          <p>Loading...</p>
+          <div className="w-full h-full flex items-center justify-center mt-16 col-span-3">
+          <FourSquare color="#FFA500" size="medium" text="" textColor="" />
+          </div>
         )}
       </div>
     </div>

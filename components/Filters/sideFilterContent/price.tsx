@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useQueryState } from "nuqs";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useRef } from "react";
 
 export default function Price() {
   const currencies: string[] = ["AMD", "USD", "EUR", "RUB"];
@@ -19,17 +19,30 @@ export default function Price() {
   const [minPrice, setMinPrice] = useQueryState("min_price");
   const [maxPrice, setMaxPrice] = useQueryState("max_price");
 
+  const minPriceRef = useRef<HTMLInputElement>(null);
+  const maxPriceRef = useRef<HTMLInputElement>(null);
+
   const handleCurrencyChange = (val: string) => {
     setCurrency(val);
   };
 
-  const handleMinPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setMinPrice(+e.target.value>0? e.target.value:null);
+  const handleMinPriceInput = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter" && minPriceRef.current && +minPriceRef.current.value>0) {
+      console.log("Min Price:", minPriceRef.current.value);
+      setMinPrice(minPriceRef.current.value);
+    }
   }
-  const handleMaxPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setMaxPrice(+e.target.value>0? e.target.value:null);
+  const handleMaxPriceInput = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter" && maxPriceRef.current && +maxPriceRef.current.value>0) {
+      console.log("Max Price:", maxPriceRef.current.value);
+      setMaxPrice(maxPriceRef.current.value);
+    }
   }
 
+  const handleInputs = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    handleMinPriceInput(e)
+    handleMaxPriceInput(e)
+  }
   const defaultCurr: string = currencies.filter((curr) => curr == currency)[0];
 
   return (
@@ -51,10 +64,10 @@ export default function Price() {
           </SelectContent>
         </Select>
       </div>
-      <div className="flex justify-between items-center gap-2 py-3">
-        <Input min={0} type="number" placeholder="From" onChange={handleMinPriceChange}/>
+      <div className="flex justify-between items-center gap-2 py-3" onKeyDown={handleInputs} >
+        <Input min={0} type="number" placeholder="From"  ref={minPriceRef}/>
         <span>-</span>
-        <Input min={0} type="number" placeholder="To" onChange={handleMaxPriceChange}/>
+        <Input min={0} type="number" placeholder="To" ref={maxPriceRef}/>
       </div>
     </div>
   );
