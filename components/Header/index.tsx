@@ -9,7 +9,7 @@ const  Header: React.FC = () =>  {
   
   return (
     <div className="w-full flex justify-center shadow-sm">
-    <div className="flex items-center justify-between w-[90%] mx-auto h-28 ">
+    <div className="flex items-center justify-between w-[90%] mx-auto md:h-28 h-16 ">
       <Image
         src={"logo.svg"}
         alt={"Amaranoc"}
