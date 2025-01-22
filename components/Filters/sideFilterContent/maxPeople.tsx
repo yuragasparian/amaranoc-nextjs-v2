@@ -7,11 +7,11 @@ import { useQueryState } from "nuqs";
 
 const MaxPeople = () => {
   const [maxPeople, setMaxPeople] = useQueryState("permissible_people_number");
-  const [inputValue, setInputValue] = useState(maxPeople || "0");
+  const [inputValue, setInputValue] = useState("0");
 
 
   useEffect(() => {
-    if (inputValue !== maxPeople) {
+    if (inputValue !== maxPeople && inputValue!="0") {
       setMaxPeople(inputValue);
     }
   }, [inputValue, maxPeople, setMaxPeople]);

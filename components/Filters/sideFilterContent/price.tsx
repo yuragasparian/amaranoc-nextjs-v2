@@ -27,22 +27,30 @@ export default function Price() {
   };
 
   const handleMinPriceInput = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "Enter" && minPriceRef.current && +minPriceRef.current.value>0) {
+    if (
+      e.key === "Enter" &&
+      minPriceRef.current &&
+      +minPriceRef.current.value >= 0
+    ) {
       console.log("Min Price:", minPriceRef.current.value);
       setMinPrice(minPriceRef.current.value);
     }
-  }
+  };
   const handleMaxPriceInput = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "Enter" && maxPriceRef.current && +maxPriceRef.current.value>0) {
+    if (
+      e.key === "Enter" &&
+      maxPriceRef.current &&
+      +maxPriceRef.current.value >= 0
+    ) {
       console.log("Max Price:", maxPriceRef.current.value);
       setMaxPrice(maxPriceRef.current.value);
     }
-  }
+  };
 
   const handleInputs = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    handleMinPriceInput(e)
-    handleMaxPriceInput(e)
-  }
+    handleMinPriceInput(e);
+    handleMaxPriceInput(e);
+  };
   const defaultCurr: string = currencies.filter((curr) => curr == currency)[0];
 
   return (
@@ -64,10 +72,25 @@ export default function Price() {
           </SelectContent>
         </Select>
       </div>
-      <div className="flex justify-between items-center gap-2 py-3" onKeyDown={handleInputs} >
-        <Input min={0} type="number" placeholder="From"  ref={minPriceRef}/>
+      <div
+        className="flex justify-between items-center gap-2 py-3"
+        onKeyDown={handleInputs}
+      >
+        <Input
+          min={0}
+          type="number"
+          placeholder="From"
+          defaultValue={minPrice ? minPrice : "0"}
+          ref={minPriceRef}
+        />
         <span>-</span>
-        <Input min={0} type="number" placeholder="To" ref={maxPriceRef}/>
+        <Input
+          min={0}
+          type="number"
+          placeholder="To"
+          defaultValue={maxPrice ? maxPrice : "0"}
+          ref={maxPriceRef}
+        />
       </div>
     </div>
   );

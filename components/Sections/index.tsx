@@ -15,9 +15,7 @@ import { sections } from "@/db/sections";
 import { useQueryState } from "nuqs";
 
 export function Sections() {
-  const [currentSection, setCurrentSection] = useQueryState("section", {
-    defaultValue: "",
-  });
+  const [currentSection, setCurrentSection] = useQueryState("section");
 
   return (
     <div className="sm:px-12 border-y my-5">
@@ -38,7 +36,7 @@ export function Sections() {
                     <CardContent
                       className="flex flex-col aspect-square items-center justify-center p-0 group cursor-pointer"
                       onClick={() => {
-                        setCurrentSection(section.path);
+                        setCurrentSection(isActive ? null : section.path);
                       }}
                     >
                       <Image
