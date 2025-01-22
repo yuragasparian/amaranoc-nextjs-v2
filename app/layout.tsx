@@ -3,6 +3,7 @@ import { Montserrat, Roboto } from 'next/font/google'
 import "./globals.css";
 import Header from './../components/Header/index';
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import Footer from './../components/Footer/index';
 
 const montserrat = Montserrat({
   weight: '500',
@@ -27,6 +28,7 @@ export default function RootLayout({
         <Header />
         {children}
         </NuqsAdapter>
+        <Footer />
       </body>
     </html>
   );
