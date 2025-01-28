@@ -57,7 +57,7 @@ const [pageCount, setPageCount] = useState<number | null>(null);
           </div>
         )}
       </div>
-      {houses && <PagePagination totalPages={pageCount || 1}/>}
+      {houses && (pageCount && pageCount>1) && <PagePagination totalPages={pageCount || 1}/>}
     </div>
   );
 };

@@ -40,7 +40,7 @@ export function Sections() {
                       }}
                     >
                       <Image
-                        src={`sections/${section.path}.svg`}
+                        src={`/sections/${section.path}.svg`}
                         alt=""
                         width={40}
                         height={40}

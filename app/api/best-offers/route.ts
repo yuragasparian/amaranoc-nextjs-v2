@@ -1,7 +1,6 @@
 import { offers } from "@/db/offers";
 import { NextResponse } from "next/server";
-import React from "react";
-import { json } from "stream/consumers";
+
 
 export async function GET(request: Request) {
     const params = new URL(request.url).searchParams;

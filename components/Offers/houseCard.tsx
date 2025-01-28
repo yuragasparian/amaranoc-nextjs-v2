@@ -7,7 +7,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Banknote, MapPin, PersonStanding, Star } from "lucide-react";
-import layout from "@/app/layout";
+import  Link  from 'next/link';
 
 interface CardProps {
   id: number;
@@ -22,6 +22,7 @@ const rooms = ["_frontal", "_kitchen", "_bedroom", "_bathroom"];
 const HouseCard = ({ id, address, maxPeople, rate, price }: CardProps) => {
   return (
     <Card className="w-full">
+      <Link href={"/houses/"+id}>
       <CardContent>
         <Carousel
           opts={{
@@ -68,6 +69,7 @@ const HouseCard = ({ id, address, maxPeople, rate, price }: CardProps) => {
           </span>
         </div>
       </CardContent>
+      </Link>
     </Card>
   );
 };

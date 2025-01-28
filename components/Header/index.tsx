@@ -4,6 +4,7 @@ import { Navigation } from "./navbar";
 import { Globe, UserRound } from "lucide-react";
 import { SearchBar } from "./searchBar";
 import SideSheet from './sideSheet';
+import  Link  from 'next/link';
 
 const  Header: React.FC = () =>  {
   
@@ -22,7 +23,9 @@ const  Header: React.FC = () =>  {
 
       <div className="flex gap-8 items-center">
         <Globe size={20} strokeWidth={1.5} className="sm:block hidden"/>
+        <Link href={"/login"}>
         <UserRound size={20} strokeWidth={1.5} className="md:block hidden"/>
+        </Link>
         <SearchBar className="sm:flex hidden"/>
         <SideSheet />
       </div>
